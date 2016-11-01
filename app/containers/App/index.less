@@ -1,0 +1,19 @@
+@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+.bc{
+	background: green;
+	box-sizing:border-box;
+	box-shadow:10px 10px 5px #888888;
+	display: flex;
+}
+
+.title {
+  composes: bc;
+  color: #000;
+}
+
+
+:global(.bc) {
+  background: green;
+}
