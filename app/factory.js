@@ -30,7 +30,9 @@ export default class Factory {
      * 加载全局对象
      */
     static loadObjects() {
+
         window._ = window.lodash = require('lodash');
+        window.moment = require('moment');
     }
     /**
      * 加载全局方法

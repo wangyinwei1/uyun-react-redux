@@ -42,6 +42,7 @@
     "fetch-polyfill": "^0.8.2",
     "flux": "^3.0.0",
     "microevent-github": "^1.0.0",
+    "moment": "^2.15.2",
     "postcss-loader": "^1.0.0",
     "postcss-modules-values": "^1.2.2",
     "react": "^0.14.7",

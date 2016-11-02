@@ -1,15 +1,15 @@
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createHashHistory } from 'history';
-import configureStore from './states/store/appStore.jsx';
 import { syncHistoryWithStore } from 'react-router-redux';
+import configureStore from './states/store/appStore.jsx';
 import subscriptions from './states/subscriptions/index.jsx';
 import { Router, Route, IndexRoute, hashHistory , browserHistory, IndexRedirect, useRouterHistory} from 'react-router';
-import './index.js';
+import './theme/public.css';
 
 import Facotry from './factory.js';
-
 // 加载全局对象
 Facotry.loadObjects();
 // 加载全局函数
@@ -42,9 +42,9 @@ let root = document.getElementById('layout-content');
 render( 
 	<Provider store={store}>
 	 	<Router history={history}>
-		    <Route path="/" component={App} >
+		    <Route path="/">
 		    	<IndexRedirect to="business" />
-		    	<Route path="business" component={DynamicChartComponent} />
+		    	<Route path="business" component={App} />
 		    </Route>
 		</Router>
 	</Provider>, 

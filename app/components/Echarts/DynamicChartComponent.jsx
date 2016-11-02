@@ -26,153 +26,115 @@ const DynamicChartComponent = React.createClass({
         this.setState({option: option});
     },
     componentDidMount: function() {
-        if (this.timeTicket) {
-            clearInterval(this.timeTicket);
-        }
-        this.timeTicket = setInterval(this.fetchNewDate, 1000);
+        // if (this.timeTicket) {
+        //     clearInterval(this.timeTicket);
+        // }
+        // this.timeTicket = setInterval(this.fetchNewDate, 1000);
     },
     componentWillUnmount: function() {
-        if (this.timeTicket) {
-            clearInterval(this.timeTicket);
-        }
+        // if (this.timeTicket) {
+        //     clearInterval(this.timeTicket);
+        // }
     },
     getOption: function() {
+        const overviewOrCenterSwitch = true;
         const option = {
-            title: {
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data:['最新成交价', '预购队列']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataView: {readOnly: false},
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
             grid: {
-                top: 60,
-                left: 30,
-                right: 60,
-                bottom:30
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 0,
+                borderWidth: 0
             },
-            dataZoom: {
-                show: false,
-                start: 0,
-                end: 100
+            tooltip : {
+                trigger: 'axis',
+                formatter: "{b} &nbsp; "+(overviewOrCenterSwitch == "system"?"吞吐量":"交易量")+": {c}",
+                showDelay: 0,
+                transitionDuration: 0,
+                position: function(pos){
+                    return [pos[0], 10];
+                }
             },
-            visualMap: {
-                show: false,
-                min: 0,
-                max: 1000,
-                color: ['#BE002F', '#F20C00', '#F00056', '#FF2D51', '#FF2121', '#FF4C00', '#FF7500', 
-                        '#FF8936', '#FFA400', '#F0C239', '#FFF143', '#FAFF72', '#C9DD22', '#AFDD22',
-                        '#9ED900', '#00E500', '#0EB83A', '#0AA344', '#0C8918', '#057748', '#177CB0']
-            },
-            xAxis: [
+            xAxis : [
                 {
-                    type: 'category',
-                    boundaryGap: true,
-                    data: (function (){
-                        let now = new Date();
-                        let res = [];
-                        let len = 50;
-                        while (len--) {
-                            res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
-                            now = new Date(now - 2000);
+                    type : 'category',
+                    axisLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false,
+                        //标签的间隔决定了分割线的间隔
+                        interval: 0,
+                        textStyle: {
+                            align: "left"
                         }
-                        return res;
-                    })()
-                },
-                {
-                    type: 'category',
-                    boundaryGap: true,
-                    data: (function (){
-                        let res = [];
-                        let len = 50;
-                        while (len--) {
-                            res.push(50 - len + 1);
+                    },
+                    axisTick: {
+                        show: false,
+                        interval: 3
+                    },
+                    splitLine : {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(0,0,0,0.1)",
+                            type: 'solid',
+                            width: 1
                         }
-                        return res;
-                    })()
+                    },
+                    splitArea : {
+                        show: true,
+                        areaStyle:{
+                            color:['rgba(92,203,57,0.3)','rgba(92,203,57,0.3)']
+                        }
+                    },
+                    data : null
                 }
             ],
-            yAxis: [
+            yAxis : [
                 {
-                    type: 'value',
-                    scale: true,
-                    name: '价格',
-                    max: 20,
-                    min: 0,
-                    boundaryGap: [0.2, 0.2]
-                },
-                {
-                    type: 'value',
-                    scale: true,
-                    name: '预购量',
-                    max: 1200,
-                    min: 0,
-                    boundaryGap: [0.2, 0.2]
+                    type : 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    splitLine : {
+                        show:false
+                    }
                 }
             ],
-            series: [
+            series : [
                 {
-                    name:'预购队列',
                     type:'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
+                    data: [434,43,42,4234,4234,43234,34],
+                    name: overviewOrCenterSwitch == "system"?"吞吐量":"交易量",
+                    barCategoryGap: 2,
                     itemStyle: {
                         normal: {
-                            barBorderRadius: 4,
+                            color: 'rgba(92,203,57,1)'
                         }
-                    },
-                    animationEasing: 'elasticOut',
-                    animationDelay: function (idx) {
-                        return idx * 10;
-                    },
-                    animationDelayUpdate: function (idx) {
-                        return idx * 10;
-                    },
-                    data:(function (){
-                        let res = [];
-                        let len = 50;
-                        while (len--) {
-                            res.push(Math.round(Math.random() * 1000));
-                        }
-                        return res;
-                    })()
-                },
-                {
-                    name:'最新成交价',
-                    type:'line',
-                    data:(function (){
-                        let res = [];
-                        let len = 0;
-                        while (len < 50) {
-                            res.push((Math.random()*10 + 5).toFixed(1) - 0);
-                            len++;
-                        }
-                        return res;
-                    })()
+                    }
                 }
             ]
         };
 
         return option;
     },
+     onChartClick: function(param, echart) {
+        console.log(param, echart);
+    },
     render: function() {
-        let code = "<ReactEcharts ref='echartsInstance' \n" +
-                    "    option={this.state.option} />\n";
+         let onEvents = {
+            'click': this.onChartClick
+        };
         return (
             <div className='examples'>
                 <div className='parent'>
                     <ReactEcharts ref='echarts_react'
                         option={this.state.option} 
-                        style={{height: 300}} />
+                        style={{height:120}}
+                        onEvents={onEvents} />
                 </div>
             </div>
         );

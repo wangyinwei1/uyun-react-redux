@@ -1,5 +1,5 @@
 import React, { Component,PropTypes } from 'react';
-
+console.log(22);
 class App extends Component {
 	render() {
 		const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props;

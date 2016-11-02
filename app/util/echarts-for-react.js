@@ -52,7 +52,6 @@ const ReactEcharts = React.createClass({
         // set loading mask
         if (this.props.showLoading) echartObj.showLoading();
         else echartObj.hideLoading();
-
         return echartObj;
     },
     getEchartsInstance() {
